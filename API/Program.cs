@@ -14,6 +14,8 @@ builder.Services.AddDbContext<DataContext>(options=>{
     options.UseSqlite(connectionString);
 });
 
+builder.Services.AddCors();
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -31,6 +33,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(opt=>{opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");});
 
 app.UseAuthorization();
 
