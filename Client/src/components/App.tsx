@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { IProduct } from "./models/IProduct";
+import { IProduct } from "../models/IProduct";
+import Header from "./Header";
+import ProductList from "./ProductList";
 
 // const products= [ 
 //   { id:1, name: "product1", price: 1000, is_active: true},
@@ -8,20 +10,6 @@ import { IProduct } from "./models/IProduct";
 // ];
 
 function App() {
-
-
-  return (
-    <>
-   <Header/>
- <ProductList/>
-    </>
- 
-  )
-}
-function Header(){
-  return ( <h1>Header</h1> );
-}
-function ProductList(){
   const [products, setProducts]= useState<IProduct[]>([]);
 
   useEffect(()=>{
@@ -33,33 +21,17 @@ function ProductList(){
     //products.push({id:4, name:"product4",price:4000, is_active:true });
     setProducts([...products, {id:Date.now(),  name: "product4", price: 4000, isActive:true}])
   }
-    return (
-      <div>
-        <h2>Product List</h2> 
-     
-       {
-        products.map(p=> (
-       <Product key={p.id} product={p}/>
-        ))
-       }
-  
-       <button onClick={addProduct}> Ürün Ekle</button>
-      </div>
-      );
+
+  return (
+    <>
+   <Header products={products} />
+ <ProductList products={products} addProduct={addProduct} />
+    </>
+ 
+  )
 }
 
-function Product(props: any){
-return (
-  <>
-  { props.product.isActive ? (
-    <div>
-    <h3>{props.product.name} <p>{props.product.price} </p></h3>
-  </div>
-  ): <p> Ürün satışta değil.</p> }
-  
-  </> 
-  
- );
-}
+
+
 
 export default App
