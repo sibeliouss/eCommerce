@@ -1,7 +1,7 @@
 const products= [ 
-  {name: "product1", price: 1000},
-  {name: "product2", price: 2000},
-  {name: "product3", price: 3000},
+  { id:1, name: "product1", price: 1000, is_active: true},
+  { id:2, name: "product2", price: 2000, is_active: false},
+  {id:3,  name: "product3", price: 3000, is_active:true},
 ];
 
 function App() {
@@ -23,21 +23,32 @@ function ProductList(){
     return (
       <div>
         <h2>Product List</h2> 
-        <Product product= {products[0]} />
-        <Product product= {products[1]}  />
-        <Product product= {products[2]}  />
+     
+       {
+        products.map(p=> (
+       <Product key={p.id} product={p}/>
+        ))
+       }
+  
+       
       </div>
       );
-  <Product/> 
+ 
   
  
 }
 
 function Product(props: any){
-return ( 
-  <div>
-    <h3>{props.product.name} <p>{props.product.price} </p>  </h3>
+return (
+  <>
+  { props.product.is_active ? (
+    <div>
+    <h3>{props.product.name} <p>{props.product.price} </p></h3>
   </div>
+  ): <p> Ürün satışta değil.</p> }
+  
+  </> 
+  
  );
 }
 
