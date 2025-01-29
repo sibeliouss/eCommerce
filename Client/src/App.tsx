@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { IProduct } from "./models/IProduct";
 
 // const products= [ 
 //   { id:1, name: "product1", price: 1000, is_active: true},
@@ -21,11 +22,7 @@ function Header(){
   return ( <h1>Header</h1> );
 }
 function ProductList(){
-  const [products, setProducts]= useState([
-    { id:1, name: "product1", price: 1000, isActive: true},
-  { id:2, name: "product2", price: 2000, isActive: false},
-  {id:3,  name: "product3", price: 3000, isActive:true},
-  ]);
+  const [products, setProducts]= useState<IProduct[]>([]);
 
   useEffect(()=>{
     fetch("http://localhost:5187/api/products").then(response=>response.json()).then(data=> setProducts(data));
@@ -34,7 +31,7 @@ function ProductList(){
   
   function addProduct(){
     //products.push({id:4, name:"product4",price:4000, is_active:true });
-    setProducts([...products, {id:4,  name: "product4", price: 4000, isActive:true}])
+    setProducts([...products, {id:Date.now(),  name: "product4", price: 4000, isActive:true}])
   }
     return (
       <div>
