@@ -1,8 +1,10 @@
-const products= [ 
-  { id:1, name: "product1", price: 1000, is_active: true},
-  { id:2, name: "product2", price: 2000, is_active: false},
-  {id:3,  name: "product3", price: 3000, is_active:true},
-];
+import { useState } from "react";
+
+// const products= [ 
+//   { id:1, name: "product1", price: 1000, is_active: true},
+//   { id:2, name: "product2", price: 2000, is_active: false},
+//   {id:3,  name: "product3", price: 3000, is_active:true},
+// ];
 
 function App() {
 
@@ -19,7 +21,16 @@ function Header(){
   return ( <h1>Header</h1> );
 }
 function ProductList(){
-  
+  const [products, setProducts]= useState([
+    { id:1, name: "product1", price: 1000, is_active: true},
+  { id:2, name: "product2", price: 2000, is_active: false},
+  {id:3,  name: "product3", price: 3000, is_active:true},
+  ]);
+
+  function addProduct(){
+    //products.push({id:4, name:"product4",price:4000, is_active:true });
+    setProducts([...products, {id:4,  name: "product4", price: 4000, is_active:true}])
+  }
     return (
       <div>
         <h2>Product List</h2> 
@@ -30,12 +41,9 @@ function ProductList(){
         ))
        }
   
-       
+       <button onClick={addProduct}> Ürün Ekle</button>
       </div>
       );
- 
-  
- 
 }
 
 function Product(props: any){
