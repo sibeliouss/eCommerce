@@ -3,6 +3,8 @@ import { IProduct } from "../models/IProduct";
 import Header from "./Header";
 import ProductList from "./ProductList";
 
+import { Container, CssBaseline } from "@mui/material";
+
 // const products= [ 
 //   { id:1, name: "product1", price: 1000, is_active: true},
 //   { id:2, name: "product2", price: 2000, is_active: false},
@@ -17,15 +19,15 @@ function App() {
   }, [] );
 
   
-  function addProduct(){
-    //products.push({id:4, name:"product4",price:4000, is_active:true });
-    setProducts([...products, {id:Date.now(),  name: "product4", price: 4000, isActive:true}])
-  }
-
+ 
+//cssBaseline: bu component içeriği sıfırlar.
   return (
     <>
-   <Header products={products} />
- <ProductList products={products} addProduct={addProduct} />
+    <CssBaseline/> 
+    <Header/>
+    <Container>
+     <ProductList products={products} /> 
+    </Container>
     </>
  
   )
