@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { IProduct } from "../../models/IProduct";
 import ProductList from "./ProductList";
 import { CircularProgress } from "@mui/material";
+import requests from "../../api/requests";
 
 export default function CatalogPage(){
     const [products, setProducts]= useState<IProduct[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
-      fetch("http://localhost:5187/api/products").then(response=>response.json()).then(data=> setProducts(data)).finally(()=> setLoading(false));
+      requests.Catalog.list().then(data=> setProducts(data)).finally(()=> setLoading(false));
     }, [] );
     if(loading) return <CircularProgress/>
     return(

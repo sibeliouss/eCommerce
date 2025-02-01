@@ -3,21 +3,16 @@ import Header from "./Header";
 
 import { Container, CssBaseline } from "@mui/material";
 import { Outlet } from "react-router";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
-// const products= [ 
-//   { id:1, name: "product1", price: 1000, is_active: true},
-//   { id:2, name: "product2", price: 2000, is_active: false},
-//   {id:3,  name: "product3", price: 3000, is_active:true},
-// ];
 
 function App() {
 
-
-  
- 
 //cssBaseline: bu component içeriği sıfırlar. outlet:sayfalar gelecek
   return (
     <>
+    <ToastContainer position="bottom-right"  hideProgressBar theme="colored" />
     <CssBaseline/> 
     <Header/>
     <Container>
