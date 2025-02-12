@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { useState } from "react";
 import requests from "../../api/requests";
 import { LoadingButton } from "@mui/lab";
+import { useCartContext } from "../../context/CartContext";
+import { currencyTRY } from "../../utils/formatCurrency";
 
 
 
@@ -17,10 +19,12 @@ interface Props{
 export default function Product({product}: Props){
   const [loading, setLoading]= useState(false); 
 
+  const {setCart }= useCartContext();
+
   function handleAddItem(productId: number)
   {
     setLoading(true);
-    requests.Cart.addItem(productId).then(cart=>console.log(cart))
+    requests.Cart.addItem(productId).then(cart=>setCart(cart))
     .catch(error=> console.log(error))
     .finally(()=> setLoading(false));
     
@@ -33,7 +37,7 @@ export default function Product({product}: Props){
           {product.name}
         </Typography>
         <Typography variant="body2" color="secondary">
-          {(product.price/100).toFixed(2)} ₺
+          { currencyTRY.format (product.price)} 
         </Typography>
       </CardContent>
       <CardActions>

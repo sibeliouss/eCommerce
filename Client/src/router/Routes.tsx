@@ -8,7 +8,7 @@ import ProductDetailsPage from "../pages/catalog/ProductDetails";
 import ErrorPage from "../pages/ErrorPage";
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
-import ShoppingCartPage from "../pages/cart/ShoppingCaartPage";
+import ShoppingCartPage from "../pages/cart/ShoppingCartPage";
 
 export const router= createBrowserRouter([
     {

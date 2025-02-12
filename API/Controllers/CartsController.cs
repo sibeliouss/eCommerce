@@ -72,7 +72,8 @@ public class CartsController : ControllerBase
         var cart= await GetOrCreate();
         cart.DeleteItem(productId, quantity);
         var result= await _context.SaveChangesAsync()>0;
-        if(result) return Ok();
+        if(result)
+        return CreatedAtAction(nameof(GetCart), CartoDto(cart));
 
         return BadRequest(new ProblemDetails { Title="Problem removing item from the cart."});
 
