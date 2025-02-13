@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 import { useState } from "react";
 import requests from "../../api/requests";
 import { LoadingButton } from "@mui/lab";
-import { useCartContext } from "../../context/CartContext";
 import { currencyTRY } from "../../utils/formatCurrency";
+import { useAppDispatch } from "../../hooks/hooks";
+import { setCart } from "../cart/CartSlice";
 
 
 
@@ -18,13 +19,12 @@ interface Props{
 
 export default function Product({product}: Props){
   const [loading, setLoading]= useState(false); 
-
-  const {setCart }= useCartContext();
+  const dispatch = useAppDispatch();
 
   function handleAddItem(productId: number)
   {
     setLoading(true);
-    requests.Cart.addItem(productId).then(cart=>setCart(cart))
+    requests.Cart.addItem(productId).then(cart=>dispatch(setCart(cart)))
     .catch(error=> console.log(error))
     .finally(()=> setLoading(false));
     
