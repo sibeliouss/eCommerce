@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import requests from "../api/requests";
 
 import { useAppDispatch } from "../hooks/hooks";
-import { setCart } from "../pages/cart/CartSlice";
+import { setCart } from "../features/cart/CartSlice";
 
 
 function App() {
