@@ -146,3 +146,13 @@
 /Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/runtimes/win-x86/native/e_sqlite3.dll
 /Users/sozey/Projects/eCommerce/API/obj/Debug/net9.0/API.sourcelink.json
 /Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/API.staticwebassets.runtime.json
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/sozey/Projects/eCommerce/API/bin/Debug/net9.0/Scalar.AspNetCore.dll

@@ -1,6 +1,7 @@
 using API.Data;
 using API.Dtos;
 using API.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ public class CartsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<CartDto>> GetCart()
     {
         var cart = await GetOrCreate();
