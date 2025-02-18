@@ -65,7 +65,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options=>{
         options.SwaggerEndpoint("/openapi/v1.json", "Demo API");
     });
-    app.MapScalarApiReference(); //http://localhost:5187/scalar/     authorization butonu için
+    app.MapScalarApiReference(); //http://localhost:5187/scalar/    swagger yerine scalar kullanıldı, authorization kontrolü için
     
 }
 

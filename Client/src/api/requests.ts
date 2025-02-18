@@ -64,8 +64,13 @@ const Catalog = {
     details: (id: number) => queries.get(`products/${id}`)
 }
 
+const Account ={
+   login: (formData: any)=> queries.post("account/login",formData), 
+   register: (formData: any)=> queries.post("account/register",formData),
+}
+
 const requests = {
-    Catalog, Errors, Cart
+    Catalog, Errors, Cart, Account //buradan dışarıya export ediyoruz.
 }
 
 export default requests
