@@ -2,7 +2,8 @@ import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Badge, Box, Button, IconButton, Stack, Toolbar, Typography } from "@mui/material";
 import { Link, NavLink } from "react-router";
 
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { logout } from "../features/account/accountSlice";
 
 const links=[
   {title: "Home", to:"/"},
@@ -32,6 +33,8 @@ textDecoration:"none",
 export default function Header(){
 
   const { cart } =  useAppSelector(state=> state.cart);
+  const { user } =  useAppSelector(state=> state.account);
+  const dispatch= useAppDispatch();
   const itemCount = cart?.cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
@@ -55,11 +58,22 @@ export default function Header(){
                 </Badge>
               </IconButton>
 
-              <Stack direction="row">
-              { authLinks.map(link => 
-                <Button key={link.to} component={NavLink} to={link.to} sx={navStyles}>{link.title}</Button>
-              ) }
-            </Stack>
+              {
+                user? (
+                  <Stack direction="row">
+                    <Button sx={navStyles} >{user.name}</Button>
+                    <Button sx={navStyles} onClick={() => dispatch(logout())} >Log Out</Button>
+                  </Stack>
+                ):(
+                  <Stack direction="row">
+                  { authLinks.map(link => 
+                    <Button key={link.to} component={NavLink} to={link.to} sx={navStyles}>{link.title}</Button>
+                  ) }
+                </Stack>
+                )
+              }
+
+             
           </Box>
 
       </Toolbar>

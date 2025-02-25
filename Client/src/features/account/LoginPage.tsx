@@ -1,14 +1,19 @@
 import { LockOutlined } from "@mui/icons-material";
-import { Avatar, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import requests from "../../api/requests";
+import { Avatar, Box, Container, Paper, TextField, Typography } from "@mui/material";
+import { FieldValues, useForm } from "react-hook-form";
+
+import { LoadingButton } from "@mui/lab";
+import { useAppDispatch } from "../counter/counterSlice";
+import { loginUser } from "./accountSlice";
+import { useNavigate } from "react-router";
+
 
 export default function LoginPage() {
 
     // const [username, SetUserName]= useState("");
     // const [password, SetPassword]= useState("");
 
-    const [values, setValues] = useState({
+   /*  const [values, setValues] = useState({
         username: "",
         password:""
     });
@@ -22,8 +27,24 @@ export default function LoginPage() {
        const {name, value} =e.target; //username ve password için
        setValues({...values, [name]:value}); // {username:"abc", password:"123"} güncelleme 
 
-    }
+    } */ //react-hook-form kütüphanesi kullanacağımız için artık bunlara gerek yok.
 
+
+    const dispatch = useAppDispatch();
+
+    const nagivate = useNavigate();
+
+    const {register, handleSubmit, formState:{errors, isSubmitting, isValid} } = useForm({
+        defaultValues:{
+            username:"",
+            password:""
+        }
+    });
+   async function submitForm(data:FieldValues){
+        console.log(data);
+       await dispatch(loginUser(data));
+       nagivate("/catalog");
+    }
     return (
         <Container maxWidth="xs">
             <Paper sx={{marginTop: 8, padding:2}} elevation={3}>
@@ -31,24 +52,31 @@ export default function LoginPage() {
                 <LockOutlined/>
                 </Avatar> 
                 <Typography component="h1" variant="h5" sx={{textAlign:"center"}} >Login</Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt:2}} >
+                <Box component="form" onSubmit={handleSubmit(submitForm)} noValidate sx={{mt:2}} >
                     <TextField 
-                    name="username"
-                    value={values.username}
-                    onChange={handleInputChange}
+                    {...register("username", {required:"username is required"})}
                     label="Enter username" 
                     fullWidth required autoFocus 
                     sx={{mb:2}} 
-                    size="small"></TextField>
+                    size="small"
+                    error={!!errors.username}
+                    helperText={errors.username?.message} >
+                     
+                    </TextField>
                     <TextField
-                    name="password" 
-                    value={values.password}
-                    onChange={handleInputChange}
+                    {...register("password", {required:true, minLength:{
+                        value:6,
+                        message:"min length is 6 characters"
+                    }})}
                     label="Enter password" 
                     type="password" fullWidth required 
                     sx={{mb:2}} 
-                    size="small"></TextField>
-                    <Button type="submit" variant="contained" fullWidth sx={{mt:1}}> Login</Button>
+                    size="small"
+                    error={!!errors.password}>
+                    {errors.password?.message}    
+                    </TextField>
+                    {errors.password?.message} 
+                    <LoadingButton loading={isSubmitting} disabled={!isValid} type="submit" variant="contained" fullWidth sx={{mt:1}}> Login</LoadingButton>
                 </Box>
             </Paper>
         </Container>
