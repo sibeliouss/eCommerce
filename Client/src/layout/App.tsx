@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import Header from "./Header";
-
-
 import { CircularProgress, Container, CssBaseline } from "@mui/material";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
@@ -10,6 +7,8 @@ import requests from "../api/requests";
 
 import { useAppDispatch } from "../hooks/hooks";
 import { setCart } from "../features/cart/CartSlice";
+import { logout, setUser } from "../features/account/accountSlice";
+import Header from "./Header";
 
 
 function App() {
@@ -18,6 +17,19 @@ function App() {
   const [loading, setLoading]= useState(true);
 
   useEffect(()=>{
+    dispatch(setUser(JSON.parse(localStorage.getItem("user")!)));
+    requests.Account.getUser()
+   .then(user=>
+    {setUser(user);
+      localStorage.setItem("user",JSON.stringify(user));
+    
+    }  ).catch(error=> {
+       console.log(error);
+       dispatch(logout());
+    } );
+   
+
+
     requests.Cart.get().then(cart=>  dispatch(setCart(cart)))
    .catch(error=> console.log(error)).finally(()=> setLoading(false));
   }, []);
@@ -42,3 +54,5 @@ function App() {
 
 
 export default App
+
+
