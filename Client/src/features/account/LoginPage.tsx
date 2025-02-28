@@ -3,9 +3,11 @@ import { Avatar, Box, Container, Paper, TextField, Typography } from "@mui/mater
 import { FieldValues, useForm } from "react-hook-form";
 
 import { LoadingButton } from "@mui/lab";
-import { useAppDispatch } from "../counter/counterSlice";
+
 import { loginUser } from "./accountSlice";
 import { useNavigate } from "react-router";
+import { useAppDispatch } from "../../store/store";
+import { getCart } from "../cart/CartSlice";
 
 
 export default function LoginPage() {
@@ -43,6 +45,7 @@ export default function LoginPage() {
    async function submitForm(data:FieldValues){
         console.log(data);
        await dispatch(loginUser(data));
+       await dispatch(getCart()); //user giriş yaptıktan sonra kartın son hali getiriliyor.
        nagivate("/catalog");
     }
     return (

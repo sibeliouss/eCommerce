@@ -16,81 +16,98 @@ public class CartsController : ControllerBase
     {
         _context = context;
     }
-
-    [HttpGet]
-    [Authorize]
+     [HttpGet]
     public async Task<ActionResult<CartDto>> GetCart()
     {
-        var cart = await GetOrCreate();
-
-        return CartoDto(cart);
+        return CartToDTO(await GetOrCreate(GetCustomerId()));
     }
 
     [HttpPost]
     public async Task<ActionResult> AddItemToCart(int productId, int quantity)
     {
-       var cart= await GetOrCreate();
-       var product= await _context.Products.FirstOrDefaultAsync(i=>i.Id==productId);
-       
-       if(product==null) return NotFound("The product is not in database.");
+        var cart = await GetOrCreate(GetCustomerId());
 
-       cart.AddItem(product, quantity);
-       var result= await _context.SaveChangesAsync()>0;
-       if(result)
-       return CreatedAtAction(nameof(GetCart), CartoDto(cart));
+        var product = await _context.Products.FirstOrDefaultAsync(i => i.Id == productId);
 
-       return BadRequest(new ProblemDetails{Title="The product can not be added to cart."});
+        if (product == null)
+            return NotFound("the product is not in database");
 
+        cart.AddItem(product, quantity);
+
+        var result = await _context.SaveChangesAsync() > 0;
+
+        if (result)
+            return CreatedAtAction(nameof(GetCart), CartToDTO(cart));
+
+        return BadRequest(new ProblemDetails { Title = "The product can not be added to cart" });
     }
 
-    private async Task<Cart> GetOrCreate(){
+    [HttpDelete]
+    public async Task<ActionResult> DeleteItemFromCart(int productId, int quantity)
+    {
+        var cart = await GetOrCreate(GetCustomerId());
 
-         var cart = await _context.Carts
+        cart.DeleteItem(productId, quantity);
+
+        var result = await _context.SaveChangesAsync() > 0;
+
+        if (result)
+            return CreatedAtAction(nameof(GetCart), CartToDTO(cart));
+
+        return BadRequest(new ProblemDetails { Title = "Problem removing item from the cart" });
+    }
+
+    private string GetCustomerId()
+    {
+        return User.Identity?.Name ?? Request.Cookies["customerId"]!;
+    }
+    private async Task<Cart> GetOrCreate(string custId)
+    {
+        var cart = await _context.Carts
                     .Include(i => i.CartItems)
                     .ThenInclude(i => i.Product)
-                    .Where(i => i.CustomerId == Request.Cookies["customerId"])
+                    .Where(i => i.CustomerId == custId)
                     .FirstOrDefaultAsync();
-        if(cart==null)
+
+        if (cart == null)
         {
-          var customerId = Guid.NewGuid().ToString();
+            var customerId = User.Identity?.Name;
 
-          var cookieOptions= new CookieOptions{
-            Expires=DateTime.Now.AddMonths(1),
-            IsEssential=true
-          };
-          Response.Cookies.Append("customerId", customerId, cookieOptions);
-          cart = new Cart { CustomerId=customerId};
+            if (string.IsNullOrEmpty(customerId))
+            {
+                customerId = Guid.NewGuid().ToString();
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddMonths(1),
+                    IsEssential = true
+                };
 
-          _context.Carts.Add(cart);
-          await _context.SaveChangesAsync();
+                Response.Cookies.Append("customerId", customerId, cookieOptions);
+            }
 
+            cart = new Cart { CustomerId = customerId };
 
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
         }
+
         return cart;
-
     }
-    [HttpDelete]
-    public async Task<ActionResult> DeleteItemFromCart(int productId, int quantity){
-        var cart= await GetOrCreate();
-        cart.DeleteItem(productId, quantity);
-        var result= await _context.SaveChangesAsync()>0;
-        if(result)
-        return CreatedAtAction(nameof(GetCart), CartoDto(cart));
 
-        return BadRequest(new ProblemDetails { Title="Problem removing item from the cart."});
-
-    }
-    private CartDto CartoDto(Cart cart){
-       return new CartDto {
-        CartId=cart.CartId,
-        CustomerId=cart.CustomerId,
-        CartItems=cart.CartItems.Select(item=> new CartItemDto{
-         ProductId=item.ProductId,
-         Name=item.Product.Name,
-         ImgUrl=item.Product.ImgUrl,
-         Price=item.Product.Price,
-         Quantity=item.Quantity
-        }).ToList()
-       };
+    private CartDto CartToDTO(Cart cart)
+    {
+        return new CartDto
+        {
+            CartId = cart.CartId,
+            CustomerId = cart.CustomerId,
+            CartItems = cart.CartItems.Select(item => new CartItemDto
+            {
+                ProductId = item.ProductId,
+                Name = item.Product.Name,
+                Price = item.Product.Price,
+                Quantity = item.Quantity,
+                ImgUrl = item.Product.ImgUrl
+            }).ToList()
+        };
     }
 }

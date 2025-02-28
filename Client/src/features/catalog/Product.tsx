@@ -5,9 +5,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
 import { LoadingButton } from "@mui/lab";
 import { currencyTRY } from "../../utils/formatCurrency";
-import { useAppDispatch } from "../../hooks/hooks";
 import { addItemToCart} from "../cart/CartSlice";
 import { useAppSelector } from "../counter/counterSlice";
+import { useAppDispatch } from "../../store/store";
 
 
 
