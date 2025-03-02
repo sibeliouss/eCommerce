@@ -9,6 +9,7 @@ public class DataContext(DbContextOptions options) : IdentityDbContext<AppUser, 
  //public DbSet<Product> Products {get;set;}
  public DbSet<Product> Products => Set<Product>(); //Products'ın artık boş olma durumu yok.
  public DbSet<Cart> Carts=> Set<Cart>();
+ public DbSet<Order> Orders=> Set<Order>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
