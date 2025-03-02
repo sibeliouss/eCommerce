@@ -1,6 +1,6 @@
 
-import { Alert, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { AddCircleOutline, Delete, RemoveCircleOutline } from "@mui/icons-material";
+import { Alert, Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { AddCircleOutline, Delete, Link, RemoveCircleOutline } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "react-toastify";
 import CartSummary from "./CartSummary";
@@ -23,6 +23,7 @@ export default function ShoppingCartPage()
 
 
   return (
+    <>
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -76,5 +77,11 @@ export default function ShoppingCartPage()
         </TableBody>
       </Table>
     </TableContainer>
+    <Box display="flex" justifyContent="flex-end" sx={{mt:3}} >
+      <Button component= {Link} to="/checkout" variant="contained" color="primary"  >
+        Checkout
+      </Button>
+    </Box>
+    </>
   );
 }

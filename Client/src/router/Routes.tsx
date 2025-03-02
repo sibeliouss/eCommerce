@@ -11,6 +11,8 @@ import NotFound from "../errors/NotFound";
 import ShoppingCartPage from "../features/cart/ShoppingCartPage";
 import RegisterPage from "../features/account/RegisterPage";
 import LoginPage from "../features/account/LoginPage";
+import CheckoutPage from "../features/checkout/CheckoutPage";
+import AuthGuard from "./AuthGuard";
 
 
 export const router= createBrowserRouter([
@@ -28,6 +30,9 @@ export const router= createBrowserRouter([
             {path:"not-found", element: <NotFound/>},
             {path:"register", element: <RegisterPage/>},
             {path:"login", element: <LoginPage/>},
+             {element: <AuthGuard/>, children: [
+                {path:"checkout", element: <CheckoutPage/>},
+             ] },
             {path:"catalog/:id", element: <ProductDetailsPage/>},
             {path:"*", element: <Navigate to="/not-found" />},
         ]

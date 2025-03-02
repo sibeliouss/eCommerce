@@ -5,7 +5,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 
 import { loginUser } from "./accountSlice";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch } from "../../store/store";
 import { getCart } from "../cart/CartSlice";
 
@@ -36,6 +36,8 @@ export default function LoginPage() {
 
     const nagivate = useNavigate();
 
+    const location = useLocation();
+
     const {register, handleSubmit, formState:{errors, isSubmitting, isValid} } = useForm({
         defaultValues:{
             username:"",
@@ -46,7 +48,7 @@ export default function LoginPage() {
         console.log(data);
        await dispatch(loginUser(data));
        await dispatch(getCart()); //user giriş yaptıktan sonra kartın son hali getiriliyor.
-       nagivate("/catalog");
+       nagivate(location.state?.from || "/catalog"); //kullanıcı checkout sayfasına gitmek istiyorsa login olduktan sonra checkout sayfasına yönlendirilsin
     }
     return (
         <Container maxWidth="xs">
