@@ -2,49 +2,41 @@ import { useEffect, useState } from "react";
 import { CircularProgress, Container, CssBaseline } from "@mui/material";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
 import { useAppDispatch } from "../store/store";
-import { getCart } from "../features/cart/CartSlice";
-import { getUser } from "../features/account/accountSlice";
+
 import Header from "./Header";
+import { getUser } from "../features/account/accountSlice";
+import { getCart } from "../features/cart/CartSlice";
 
+function App() {  
 
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(true);
 
-function App() {
-
- const dispatch = useAppDispatch();
-  const [loading, setLoading]= useState(true);
-
-  const initApp = async ()=>{
-
+  const initApp = async () => {
     await dispatch(getUser());
     await dispatch(getCart());
- 
   }
+  
+  useEffect(() => {
+    
+    initApp().then(() => setLoading(false));
+      
+  }, []);
 
-  useEffect(()=>{
-    initApp().then(()=> setLoading(false));
-    }, []);
+  if(loading) return <CircularProgress />;
 
-  if(loading) return <CircularProgress/>
-
-//cssBaseline: bu component içeriği sıfırlar. outlet:sayfalar gelecek
   return (
     <>
-    <ToastContainer position="bottom-right"  hideProgressBar theme="colored" />
-    <CssBaseline/> 
-    <Header/>
-    <Container>
-     <Outlet/> 
-    </Container>
+      <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
+      <CssBaseline />
+      <Header />
+      <Container>
+        <Outlet />
+      </Container>
     </>
- 
   )
 }
 
-
-
-
 export default App
-
-

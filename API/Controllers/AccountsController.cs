@@ -13,7 +13,7 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class AccountsController : ControllerBase
 {
- private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<AppUser> _userManager;
     private readonly TokenService _tokenService;
 
     private readonly DataContext _context;
@@ -139,5 +139,7 @@ public class AccountsController : ControllerBase
             Name = user.Name!,
             Token = await _tokenService.GenerateToken(user)
         };
-    }   
+    }
+
+
 }

@@ -9,6 +9,7 @@ axios.defaults.withCredentials=true;
 axios.interceptors.request.use(request=>
     {
         const token = store.getState().account.user?.token;
+        console.log("Gönderilen Token:", token);
         if(token)
         request.headers.Authorization= `Bearer ${token}`;
         return request;
@@ -74,9 +75,9 @@ const Catalog = {
 }
 
 const Account ={
-   login: (formData: any)=> queries.post("account/login",formData), 
-   register: (formData: any)=> queries.post("account/register",formData),
-   getUser: ()=> queries.get("account/getUser")
+   login: (formData: any)=> queries.post("accounts/login",formData), 
+   register: (formData: any)=> queries.post("accounts/register",formData),
+   getUser: ()=> queries.get("accounts/getuser")
 }
 
 const requests = {
